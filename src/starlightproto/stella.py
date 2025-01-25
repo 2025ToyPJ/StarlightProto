@@ -24,9 +24,13 @@ def search_c_act(sub1: str=None):
         result = [country for country in countries if sub1.lower() in country.lower()]
         if result:
             print(f"{sub1}에 대한 검색 결과 : {result}")
-        else: print("검색 결과가 없습니다")
+            return result
+        else: 
+            print("검색 결과가 없습니다")
+            return None
     else:
-        print(f"저장된 국가 리스트 : {countries}")
+        #print(f"저장된 국가 리스트 : {countries}")
+        return print(f"저장된 국가 리스트 : {countries}")
 
 # 저장된 별자리 검색 함수
 def search_s_act(sub1: str=None):
