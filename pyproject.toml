@@ -5,7 +5,7 @@ description = "Default template for PDM package"
 authors = [
     {name = "cho6019", email = "j01040864205@gmail.com"},
 ]
-dependencies = ["astropy>=6.1.7"]
+dependencies = ["astropy>=6.1.7", "typer>=0.15.1"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
@@ -19,4 +19,4 @@ build-backend = "pdm.backend"
 distribution = true
 
 [project.scripts]
-cho-test = "starlightproto.stella:example_def"
+cho-test = "starlightproto.stella:entry_point"
