@@ -3,11 +3,29 @@ from astropy.coordinates import EarthLocation, AltAz, SkyCoord
 from astropy.time import Time
 import numpy as np
 import typer
+import json
+import pandas as pd
+from astropy import units as u
+
+#JSON 파일 경로
+file_path = './starloc.json'
+
+with open(file_path, 'r') as file:
+    data = json.load(file)
+
+#별자리 정보 추출
+constellations = []
+for name, loc  in data.items():
+    ra = loc.get('ra', None)
+    de = loc.get('de', None)
+    constellations.append({'name': name, 'ra': ra, 'de': de})
+
+df = pd.DataFrame(constellations)
 
 
 #test 데이터
 countries = ["korea", "korea2"]
-constellations = ["Leo", "Leo2"]
+#constellations = ["Leo", "Leo2"]
 
 # 첫 입력에 따른 행동 구분
 def select_act(keyword: str, sub1: str=None, sub2: str=None):
@@ -30,17 +48,17 @@ def search_c_act(sub1: str=None):
             return None
     else:
         #print(f"저장된 국가 리스트 : {countries}")
-        return print(f"저장된 국가 리스트 : {countries}")
+        return print(f"저장된 국가 리스트 : \n{countries}")
 
 # 저장된 별자리 검색 함수
 def search_s_act(sub1: str=None):
     if sub1:
-        result = [stella for stella in constellations if sub1.lower() in stella.lower()]
+        result = [stella for stella in df['name'] if sub1.lower() in stella.lower()]
         if result:
             print(f"{sub1}에 대한 검색 결과 : {result}")
         else: print("검색 결과가 없습니다")
     else:
-        print(f"저장된 별자리 리스트 : {constellations}")
+        print(f"저장된 별자리 리스트 : \n{df['name']}")
 
 def find_act(sub1_location: str, sub2_constellation: str):
     
@@ -48,8 +66,8 @@ def find_act(sub1_location: str, sub2_constellation: str):
     latitude = 37.5665
     longitude = 126.9780
     altitude = 0 #고도는 0으로 통일
-    ra = "10h30m"
-    de = "+20d"
+    ra = str(df[df['name']==sub2_constellation]['ra'].iloc[0])
+    de = str(df[df['name']==sub2_constellation]['de'].iloc[0])
     date_time = "2025-01-25 12:00:00"
 
     #관측 위치 설정
@@ -60,7 +78,7 @@ def find_act(sub1_location: str, sub2_constellation: str):
     altaz_frame = AltAz(obstime=observation_time, location=location) #관측 천구
 
     #별자리 위치 정보 전달
-    constellation = SkyCoord(ra=ra, dec=de, frame="icrs")
+    constellation = SkyCoord(ra=ra, dec=de, frame="icrs", unit=(u.deg, u.deg))
 
     #관측 위치에 따른 별자리의 고도와 방위각 계산
     altaz = constellation.transform_to(altaz_frame)
