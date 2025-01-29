@@ -24,15 +24,23 @@ c_data = response.json()
 
 countries = [country['name']['common'] for country in c_data]
 
-#JSON 파일 경로
-file_path = "starloc.json"
+# S3에서 별자리 정보 json 가져오기
+# IAM 권한 및 역할 설정 미숙으로 퍼블릭 S3로 운영
+url_s = 'https://cho-stella-bucket.s3.ap-northeast-2.amazonaws.com/starloc.json'
+response_s = requests.get(url_s)
 
-with open(file_path, 'r') as file:
-    data = json.load(file)
+if response_s.status_code == 200:
+    data = json.loads(response_s.text)
+
+#기존 로컬 경로 기반 코드
+#JSON 파일 경로
+#file_path = "starloc.json"
+#with open(file_path, 'r') as file:
+   # data = json.load(file)
 
 #별자리 정보 추출
 constellations = []
-for name, loc  in data.items():
+for name, loc in data.items():
     ra = loc.get('ra', None)
     de = loc.get('de', None)
     kor = loc.get('korean', None)
