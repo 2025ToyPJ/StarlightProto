@@ -35,7 +35,8 @@ constellations = []
 for name, loc  in data.items():
     ra = loc.get('ra', None)
     de = loc.get('de', None)
-    constellations.append({'name': name, 'ra': ra, 'de': de})
+    kor = loc.get('korean', None)
+    constellations.append({'name': name, 'ra': ra, 'de': de, 'kor': kor})
 
 df = pd.DataFrame(constellations)
 
@@ -74,7 +75,7 @@ def search_s_act(sub1: str=None):
             print(f"{sub1}에 대한 검색 결과 : {result}")
         else: print("검색 결과가 없습니다")
     else:
-        print(f"저장된 별자리 리스트 : \n{df['name']}")
+        print(f"저장된 별자리 리스트 : \n{df[['name', 'kor']]}")
 
 def find_act(sub1_location: str, sub2_constellation: str):
     
