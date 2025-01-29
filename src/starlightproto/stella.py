@@ -6,9 +6,26 @@ import typer
 import json
 import pandas as pd
 from astropy import units as u
+from opencage.geocoder import OpenCageGeocode
+import requests
+from datetime import datetime
+import pytz
+
+
+#opencage api key
+API_KEY = "5084bf0c7cba459d9b8fef23da253bd7"
+geocoder = OpenCageGeocode(API_KEY)
+
+
+#국가명 가져오기
+url = "https://restcountries.com/v3.1/all"
+response = requests.get(url)
+c_data = response.json()
+
+countries = [country['name']['common'] for country in c_data]
 
 #JSON 파일 경로
-file_path = './starloc.json'
+file_path = "starloc.json"
 
 with open(file_path, 'r') as file:
     data = json.load(file)
@@ -18,13 +35,13 @@ constellations = []
 for name, loc  in data.items():
     ra = loc.get('ra', None)
     de = loc.get('de', None)
-    constellations.append({'name': name, 'ra': ra, 'de': de})
+    kor = loc.get('korean', None)
+    constellations.append({'name': name, 'ra': ra, 'de': de, 'kor': kor})
 
 df = pd.DataFrame(constellations)
 
-
 #test 데이터
-countries = ["korea", "korea2"]
+#countries = ["korea", "korea2"]
 #constellations = ["Leo", "Leo2"]
 
 # 첫 입력에 따른 행동 구분
@@ -58,17 +75,28 @@ def search_s_act(sub1: str=None):
             print(f"{sub1}에 대한 검색 결과 : {result}")
         else: print("검색 결과가 없습니다")
     else:
-        print(f"저장된 별자리 리스트 : \n{df['name']}")
+        print(f"저장된 별자리 리스트 : \n{df[['name', 'kor']]}")
 
 def find_act(sub1_location: str, sub2_constellation: str):
     
     # 사용자 정보 입력
-    latitude = 37.5665
-    longitude = 126.9780
+    country = geocoder.geocode(sub1_location)
+    annotations = country[0]['annotations']['timezone']['name']
+
+    latitude = country[0]['geometry']['lat']
+    longitude = country[0]['geometry']['lng']
     altitude = 0 #고도는 0으로 통일
     ra = str(df[df['name']==sub2_constellation]['ra'].iloc[0])
     de = str(df[df['name']==sub2_constellation]['de'].iloc[0])
-    date_time = "2025-01-25 12:00:00"
+
+    # 현지 시간 추출
+    local_time = datetime.now()
+    local_tz = pytz.timezone(annotations)
+    localized_time = local_tz.localize(local_time)
+    utc_time = localized_time.astimezone(pytz.UTC)
+    utc_time_str = utc_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    date_time = Time(utc_time_str)
 
     #관측 위치 설정
     location = EarthLocation(lat=latitude, lon=longitude, height=altitude)
