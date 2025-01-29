@@ -5,7 +5,7 @@
 groups = ["default", "eda"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:ca8949e2d27a1088e01ef6dcc457049939ea05bda85416cb8c58b6512f08926f"
+content_hash = "sha256:87c1e3fa00605c98fb1ddd6c0f0883833e585f270a3959990aa55de38e2e077b"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
