@@ -18,6 +18,14 @@ $ cho-test find --sub1 <'국가명(eng)'> --sub2 <'별자리명(eng)'> :
 국가명 및 별자리명을 일치로 검색. 국가명은 대소문자를 구분하지 않음
 ex: cho-test find --sub1 'South Korea' --sub2 'Leo'
 
+In Python
+$ pip install StarlightProto
+>> import starlightproto.stella as ex
+>> ex.select_act('your act', 'sub1', 'sub2')
+
+example : ex.select_act('find', 'south korea', 'Leo')
+          ex.select_act('search_c', 'korea')
+
 ```
 
 # Dev
