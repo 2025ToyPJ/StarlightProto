@@ -124,11 +124,12 @@ def find_act(sub1_location: str, sub2_constellation: str):
     #결과 출력
     if not is_observable(latitude, constellation.dec.deg):
         print("현 위치에서 해당 별자리는 관측되지 않습니다")
-
+        return("현 위치에서 해당 별자리는 관측되지 않습니다")
     else:
         if altitude > 0:
             direction = get_direction(azimuth)
-            print(f"현재 별자리는 {direction}쪽 하늘에 떠 있습니다. (고도: {altitude:.2f}°, 방위각: {azimuth:.2f}°)")
+            print(f"현재 별자리는 {direction}쪽 하늘에 떠 있습니다. (고도: {altitude:.2f}°, 방위각: {azimuth:.2f}°)v")
+            return f"현재 별자리는 {direction}쪽 하늘에 떠 있습니다. (고도: {altitude:.2f}°, 방위각: {azimuth:.2f}°)"
         else :
             delta_time = 0
             while altitude <= 0:
@@ -140,10 +141,12 @@ def find_act(sub1_location: str, sub2_constellation: str):
 
                 if delta_time > 1440:
                     print("현 위치에서 해당 별자리는 오늘 관측할 수 없습니다, Err")
+                    return("현 위치에서 해당 별자리는 오늘 관측할 수 없습니다, Err")
                     break
 
             if altitude > 0:
                 print(f"해당 별자리는 {delta_time//60}시 {delta_time%60}분 후에 떠오릅니다.")
+                return(f"해당 별자리는 {delta_time//60}시 {delta_time%60}분 후에 떠오릅니다.")
 
 
 #별자리 방위 방향 결정

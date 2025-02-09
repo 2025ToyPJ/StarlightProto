@@ -1,6 +1,6 @@
 [project]
 name = "StarlightProto"
-version = "0.5.0"
+version = "0.5.2"
 description = "Default template for PDM package"
 authors = [
     {name = "cho6019", email = "j01040864205@gmail.com"},
