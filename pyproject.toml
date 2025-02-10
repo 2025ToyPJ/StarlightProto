@@ -6,7 +6,7 @@ authors = [
     {name = "cho6019", email = "j01040864205@gmail.com"},
 ]
 dependencies = ["astropy>=6.1.7", "typer>=0.15.1", "pytest>=8.3.4", "pandas>=2.2.3", "opencage>=3.0.4", "pytz>=2024.2", "streamlit>=1.42.0"]
-requires-python = ">=3.10"
+requires-python = ">=3.10, <4.0"
 readme = "README.md"
 license = {text = "MIT"}
 
