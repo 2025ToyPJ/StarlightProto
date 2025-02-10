@@ -41,6 +41,7 @@ $ pdm add -dG eda jupyterlab
 # Used tool
 ```bash
 
+- Astropy : 천문 정보 연산 python 라이브러리
 - GeoCoder : 국가명에 따른 위도, 경도, 시간 데이터를 반환 받기 위한 API
 - Restcountries : 국가명 리스트를 받기 위한 API
 - Amazon S3 : 별자리 위치 데이터 파일을 업로드. IAM을 이용한 권한 및 역할 설정 미숙으로 public 스토리지로 설정
