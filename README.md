@@ -8,6 +8,8 @@ for version 0.5
 
 
 In Cli
+$ source .venv/bin/activate
+
 $ cho-test search_c : 저장된 모든 국가명 검색
 $ cho-test search_c --sub1 <'검색어(eng)'> : 일치 및 포함으로 국가명 검색
 
